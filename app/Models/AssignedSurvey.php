@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class AssignedSurvey extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'survey_id',
+        'assigned_at',
+        'filled_at',
+        'dominant_style',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -16,5 +24,10 @@ class AssignedSurvey extends Model
     public function answer(): HasMany
     {
         return $this->hasMany(Answer::class);
+    }
+
+    public function survey(): BelongsTo
+    {
+        return $this->belongsTo(Survey::class);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminSurveyController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\ManualAuth;
@@ -33,7 +34,10 @@ Route::middleware(ManualAuth::class)->group(function () {
         Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
         // Survey
-        
+        Route::get('/admin/survey', [AdminSurveyController::class, 'index'])->name('admin.survey.index');
+        Route::get('/admin/assign-surveys', [AdminSurveyController::class, 'indexAssignSurvey'])->name('admin.survey.assign.index');
+        Route::post('/admin/assign-surveys', [AdminSurveyController::class, 'assign'])->name('admin.survey.assign.store');
+
     });
 });
 
