@@ -10,21 +10,49 @@ use Illuminate\Http\Request;
 
 class AdminSurveyController extends Controller
 {
-    public function index()
+
+    public function index(Request $request)
     {
         $totalUsers = User::where('role', 'user')->count();
         $totalAssigned = AssignedSurvey::count();
         $totalFilled = AssignedSurvey::whereNotNull('filled_at')->count();
         $totalUnfilled = AssignedSurvey::whereNull('filled_at')->count();
-        $questions = Question::with('options')->get(); // pastikan relasi 'answers' ada
+
+        // Untuk filter
+        $query = AssignedSurvey::with(['survey', 'user']);
+
+        if ($request->filled('survey_id')) {
+            $query->where('survey_id', $request->survey_id);
+        }
+
+        if ($request->filled('status')) {
+            if ($request->status === 'filled') {
+                $query->whereNotNull('filled_at');
+            } elseif ($request->status === 'unfilled') {
+                $query->whereNull('filled_at');
+            }
+        }
+
+        if ($request->filled('search')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('email', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $assignedSurveys = $query->latest()->paginate(10); // paginasi opsional
+        $surveys = Survey::all();
 
         return view('admin.dashboard.index', compact(
             'totalUsers',
             'totalAssigned',
             'totalFilled',
-            'totalUnfilled'
+            'totalUnfilled',
+            'assignedSurveys',
+            'surveys'
         ));
     }
+
 
     public function indexSurvey()
     {
