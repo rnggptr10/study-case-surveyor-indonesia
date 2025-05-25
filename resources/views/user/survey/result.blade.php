@@ -1,31 +1,43 @@
 @extends('layout')
 
 @section('content')
-<h2 class="text-xl font-bold mb-4">Hasil Survey</h2>
+<div class="flex min-h-screen">
+    @include('components.sidebar')
 
-<p><strong>Dominant Style:</strong> {{ $survey->dominant_style }}</p>
+    <main class="flex-1 p-8 bg-gradient-to-r from-blue-100 via-white to-blue-100">
+        <div class="bg-white shadow-md rounded-lg p-6 border border-blue-200">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Hasil Survey</h2>
 
-<div class="my-4">
-    <canvas id="leadershipChart"></canvas>
+            <p class="text-lg mb-6">
+                <span class="text-gray-600 font-medium">Dominant Style:</span>
+                <span class="text-blue-600 font-semibold">{{ $survey->dominant_style }}</span>
+            </p>
+
+            <div class="bg-blue-50 rounded-lg p-4 mb-6">
+                <canvas id="leadershipChart" class="w-full h-80"></canvas>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left border border-gray-300 shadow-sm rounded-md">
+                    <thead class="bg-gray-100 text-gray-700">
+                        <tr>
+                            <th class="px-4 py-3 border">Leadership Style</th>
+                            <th class="px-4 py-3 border">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach($stylesCount as $style => $count)
+                            <tr>
+                                <td class="px-4 py-3 text-gray-800">{{ $style }}</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">{{ $count }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
 </div>
-
-<table class="table-auto w-full border">
-    <thead>
-        <tr>
-            <th class="border px-4 py-2">Leadership Style</th>
-            <th class="border px-4 py-2">Score</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($stylesCount as $style => $count)
-            <tr>
-                <td class="border px-4 py-2">{{ $style }}</td>
-                <td class="border px-4 py-2">{{ $count }}</td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
-
 @endsection
 
 @push('scripts')
@@ -42,18 +54,18 @@
                 borderColor: 'rgba(54, 162, 235, 1)',
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderWidth: 2,
-                fill: false,
-                tension: 0.3, // sedikit lengkung, atau 0 jika ingin garis lurus
+                fill: true,
+                tension: 0.4,
                 pointBackgroundColor: 'rgba(54, 162, 235, 1)',
                 pointRadius: 4
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 y: {
                     beginAtZero: true,
-                    precision: 0,
                     title: {
                         display: true,
                         text: 'Score'
@@ -73,7 +85,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Score  Leadership Style'
+                    text: 'Leadership Style Scores'
                 }
             }
         }
