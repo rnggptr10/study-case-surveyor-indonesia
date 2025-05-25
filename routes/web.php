@@ -31,7 +31,7 @@ Route::middleware(ManualAuth::class)->group(function () {
     // Routes Admin
     Route::middleware(RoleMiddleware::class.':admin')->group(function () {
         // Dashboard
-        Route::get('/admin/dashboard', fn() => view('admin.dashboard'));
+        Route::get('/admin/dashboard', [AdminSurveyController::class, 'index'])->name('admin.dashboard');
         // Users
         Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
         Route::get('/admin/users/create', [UserController::class, 'create'])->name('admin.users.create');

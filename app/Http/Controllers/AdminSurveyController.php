@@ -12,8 +12,18 @@ class AdminSurveyController extends Controller
 {
     public function index()
     {
+        $totalUsers = User::where('role', 'user')->count();
+        $totalAssigned = AssignedSurvey::count();
+        $totalFilled = AssignedSurvey::whereNotNull('filled_at')->count();
+        $totalUnfilled = AssignedSurvey::whereNull('filled_at')->count();
         $questions = Question::with('options')->get(); // pastikan relasi 'answers' ada
-        return view('admin.survey.index', compact('questions'));
+
+        return view('admin.dashboard.index', compact(
+            'totalUsers',
+            'totalAssigned',
+            'totalFilled',
+            'totalUnfilled'
+        ));
     }
 
     public function indexAssignSurvey()

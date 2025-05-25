@@ -1,12 +1,56 @@
 @extends('layout')
 
 @section('content')
-<h2>Create User</h2>
-<form method="POST" action="{{ route('admin.users.store') }}">
-    @csrf
-    <input name="name" placeholder="Name" required><br>
-    <input name="email" placeholder="Email" type="email" required><br>
-    <input name="password" placeholder="Password" type="password" required><br>
-    <button type="submit">Submit</button>
-</form>
+<div class="flex min-h-screen">
+    @include('components.sidebar')
+
+    <main class="flex-1 p-8 bg-gradient-to-r from-blue-100 via-white to-blue-100">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-semibold text-blue-900">Tambah Pengguna</h2>
+            <a href="{{ route('admin.users.index') }}" class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded shadow">
+                ← Kembali
+            </a>
+        </div>
+
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                <strong>Terjadi kesalahan!</strong>
+                <ul class="mt-2 list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-xl">
+            <form method="POST" action="{{ route('admin.users.store') }}">
+                @csrf
+                <div class="mb-4">
+                    <label class="block text-blue-900 font-medium mb-1">Nama</label>
+                    <input name="name" placeholder="Nama" required
+                        class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-blue-900 font-medium mb-1">Email</label>
+                    <input name="email" type="email" placeholder="Email" required
+                        class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-blue-900 font-medium mb-1">Password</label>
+                    <input name="password" type="password" placeholder="Password" required
+                        class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
 @endsection

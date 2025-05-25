@@ -4,7 +4,7 @@
 <div class="flex min-h-screen bg-gradient-to-r from-blue-100 via-white to-blue-100">
     @include('components.sidebar')
 
-    <main class="flex-1 p-8">
+    <main class="flex-1 p-8">   
         <h2 class="text-2xl font-semibold mb-4">Welcome, {{ session('user')->name }}</h2>
 
         <div class="">
