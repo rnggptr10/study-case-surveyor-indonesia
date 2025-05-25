@@ -1,72 +1,46 @@
 @extends('layout')
 
 @section('content')
-<div class="container">
-    <h2 class="mb-4">Manajemen Pertanyaan Survey</h2>
+<div class="flex min-h-screen">
+    @include('components.sidebar')
 
-    {{-- Tombol tambah pertanyaan --}}
-    <div class="mb-4">
-        {{-- <a href="{{ route('admin.survey.create') }}" class="btn btn-success">+ Tambah Pertanyaan</a> --}}
-    </div>
+    <main class="flex-1 p-8 bg-gradient-to-r from-blue-100 via-white to-blue-100">
+        <h2 class="text-2xl font-semibold text-blue-900 mb-6">Daftar Survey</h2>
 
-    {{-- Daftar pertanyaan dan opsi --}}
-    @forelse ($questions as $index => $question)
-        <div class="card mb-4 shadow-sm">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <h5>No. {{ $index + 1 }}</h5>
-                        <p><strong>Situasi:</strong> {{ $question->situation }}</p>
-                    </div>
-                    <div>
-                        {{-- <a href="{{ route('admin..edit', $question->id) }}" class="btn btn-sm btn-primary">Edit</a> --}}
-                        {{-- <form action="{{ route('admin.questions.destroy', $question->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                        </form> --}}
-                    </div>
-                </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                <thead class="bg-blue-600 text-white">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-sm font-medium">No</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium">Judul Survey</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    @forelse ($surveys as $index => $survey)
+                        <tr class="hover:bg-blue-50">
+                            <td class="px-6 py-4 text-sm text-gray-800">{{ $index + 1 }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-800">{{ $survey->title }}</td>
+                            <td class="px-6 py-4 text-sm flex space-x-2">
+                                <a href="{{ route('admin.survey.show', $survey->id) }}"
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow text-sm">
+                                    Detail
+                                </a>
+                                <a href="{{ route('admin.survey.assign.index', $survey->id) }}"
+                                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow text-sm">
+                                    Assign
+                                </a>
+                            </td>
 
-                {{-- Tampilkan semua opsi jawaban --}}
-                <ul class="list-group mt-3">
-                    @foreach($question->options as $option)
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>{{ $option->option }}.</strong> {{ $option->text }}
-                                <br>
-                                <small class="text-muted">Gaya:
-                                    <span class="badge
-                                        {{
-                                            $option->style == 'Telling' ? 'bg-danger' :
-                                            ($option->style == 'Selling' ? 'bg-warning text-dark' :
-                                            ($option->style == 'Participating' ? 'bg-info text-dark' :
-                                            ($option->style == 'Delegating' ? 'bg-success' : 'bg-secondary')))
-                                        }}">
-                                        {{ $option->style }}
-                                    </span>
-                                </small>
-                            </div>
-                            <div>
-                                <a href="" class="btn btn-sm btn-outline-primary">Edit</a>
-                                {{-- <form action="{{ route('admin.answers.destroy', $option->id) }}" method="POST" class="d-inline"> --}}
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Hapus opsi ini?')">Hapus</button>
-                                </form>
-                            </div>
-                        </li>
-                    @endforeach
-                </ul>
-
-                {{-- Tombol tambah opsi jawaban --}}
-                <div class="mt-3">
-                    {{-- <a href="{{ route('admin.answers.create', ['question_id' => $question->id]) }}" class="btn btn-outline-success btn-sm">+ Tambah Opsi</a> --}}
-                </div>
-            </div>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="px-6 py-4 text-center text-gray-600">Tidak ada survey ditemukan.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
-    @empty
-        <p>Tidak ada pertanyaan ditemukan.</p>
-    @endforelse
+    </main>
 </div>
 @endsection

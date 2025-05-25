@@ -22,7 +22,6 @@ Route::middleware(ManualAuth::class)->group(function () {
         //// Dashboard
         Route::get('/user/dashboard',[UserSurveyController::class, 'index'])->name('user.dashboard');
         // Survey
-        // Route::get('/user-surveys', [UserSurveyController::class, 'index'])->name('user.surveys');
         Route::get('/user-surveys/{assignedSurvey}/fill', [UserSurveyController::class, 'fill'])->name('user.surveys.fill');
         Route::post('/my-surveys/{assignedSurvey}/submit', [UserSurveyController::class, 'submit'])->name('user.surveys.submit');
         Route::get('/survey/result/{id}', [UserSurveyController::class, 'result'])->name('user.survey.result');
@@ -40,10 +39,10 @@ Route::middleware(ManualAuth::class)->group(function () {
         Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
         // Survey
-        Route::get('/admin/survey', [AdminSurveyController::class, 'index'])->name('admin.survey.index');
+        Route::get('/admin/survey', [AdminSurveyController::class, 'indexSurvey'])->name('admin.survey.index');
+        Route::get('/admin/survey/{id}', [AdminSurveyController::class, 'showSurvey'])->name('admin.survey.show');
         Route::get('/admin/assign-surveys', [AdminSurveyController::class, 'indexAssignSurvey'])->name('admin.survey.assign.index');
         Route::post('/admin/assign-surveys', [AdminSurveyController::class, 'assign'])->name('admin.survey.assign.store');
-
     });
 });
 

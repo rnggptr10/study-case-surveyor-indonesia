@@ -26,6 +26,21 @@ class AdminSurveyController extends Controller
         ));
     }
 
+    public function indexSurvey()
+    {
+        $surveys = Survey::all();
+
+        return view('admin.survey.index', compact('surveys'));
+    }
+
+    public function showSurvey($id)
+    {
+        $survey = Survey::with('questions.options')->findOrFail($id);
+
+        return view('admin.survey.detail', compact('survey'));
+    }
+
+
     public function indexAssignSurvey()
     {
         $surveys = Survey::with('assignedSurveys')->get();
