@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manual Auth</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <!-- Vite for Tailwind -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
-<div class="container mt-5">
+<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
     @yield('content')
-</div>
+
+    @stack('scripts')
+
 </body>
 </html>

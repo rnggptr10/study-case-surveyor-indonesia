@@ -1,16 +1,45 @@
 @extends('layout')
 
 @section('content')
-<h2>Login</h2>
-<form method="POST" action="/login">
-    @csrf
-    <x-alert/>
-    <div class="mb-3">
-        <input name="email" type="email" placeholder="Email" class="form-control">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 bg-white p-8 rounded shadow-md">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-blue-800">
+                Login ke Akun Anda
+            </h2>
+        </div>
+
+        <x-alert />
+
+        <form class="mt-8 space-y-6" method="POST" action="/login">
+            @csrf
+
+            <div class="rounded-md shadow-sm -space-y-px">
+                <div class="mb-4">
+                    <label for="email" class="sr-only">Email</label>
+                    <input id="email" name="email" type="email" autocomplete="email" required
+                        class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900
+                               focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                        placeholder="Email">
+                </div>
+                <div>
+                    <label for="password" class="sr-only">Password</label>
+                    <input id="password" name="password" type="password" autocomplete="current-password" required
+                        class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900
+                               focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                        placeholder="Password">
+                </div>
+            </div>
+
+            <div>
+                <button type="submit"
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium
+                           rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2
+                           focus:ring-offset-2 focus:ring-blue-500">
+                    Login
+                </button>
+            </div>
+        </form>
     </div>
-    <div class="mb-3">
-        <input name="password" type="password" placeholder="Password" class="form-control">
-    </div>
-    <button class="btn btn-primary">Login</button>
-</form>
+</div>
 @endsection

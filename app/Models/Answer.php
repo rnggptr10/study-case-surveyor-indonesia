@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Answer extends Model
 {
+    protected $fillable = [
+        'assigned_survey_id',
+        'question_id',
+        'option_id',
+        'style',
+    ];
+
     public function assignedSurvey(): BelongsTo
     {
         return $this->belongsTo(AssignedSurvey::class);
